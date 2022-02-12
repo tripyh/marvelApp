@@ -8,15 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		04F5F53327B818580003DA35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F53227B818580003DA35 /* AppDelegate.swift */; };
-		04F5F53527B818580003DA35 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F53427B818580003DA35 /* SceneDelegate.swift */; };
-		04F5F53727B818580003DA35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F53627B818580003DA35 /* ViewController.swift */; };
-		04F5F53A27B818580003DA35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F5F53827B818580003DA35 /* Main.storyboard */; };
 		04F5F53D27B818580003DA35 /* MarvelApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F53B27B818580003DA35 /* MarvelApp.xcdatamodeld */; };
 		04F5F53F27B8185B0003DA35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F5F53E27B8185B0003DA35 /* Assets.xcassets */; };
 		04F5F54227B8185B0003DA35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F5F54027B8185B0003DA35 /* LaunchScreen.storyboard */; };
 		04F5F54D27B8185B0003DA35 /* MarvelAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F54C27B8185B0003DA35 /* MarvelAppTests.swift */; };
 		04F5F55727B8185B0003DA35 /* MarvelAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F55627B8185B0003DA35 /* MarvelAppUITests.swift */; };
 		04F5F55927B8185B0003DA35 /* MarvelAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F55827B8185B0003DA35 /* MarvelAppUITestsLaunchTests.swift */; };
+		04F5F56C27B81AD10003DA35 /* CharacterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F56B27B81AD10003DA35 /* CharacterVC.swift */; };
+		04F5F56E27B81B0C0003DA35 /* CharacterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F5F56D27B81B0C0003DA35 /* CharacterVC.xib */; };
+		04F5F57127B81B980003DA35 /* CharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F5F57027B81B980003DA35 /* CharacterViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,9 +39,6 @@
 /* Begin PBXFileReference section */
 		04F5F52F27B818580003DA35 /* MarvelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F5F53227B818580003DA35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		04F5F53427B818580003DA35 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04F5F53627B818580003DA35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04F5F53927B818580003DA35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04F5F53C27B818580003DA35 /* MarvelApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MarvelApp.xcdatamodel; sourceTree = "<group>"; };
 		04F5F53E27B8185B0003DA35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04F5F54127B8185B0003DA35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +48,9 @@
 		04F5F55227B8185B0003DA35 /* MarvelAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F5F55627B8185B0003DA35 /* MarvelAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelAppUITests.swift; sourceTree = "<group>"; };
 		04F5F55827B8185B0003DA35 /* MarvelAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		04F5F56B27B81AD10003DA35 /* CharacterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterVC.swift; sourceTree = "<group>"; };
+		04F5F56D27B81B0C0003DA35 /* CharacterVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterVC.xib; sourceTree = "<group>"; };
+		04F5F57027B81B980003DA35 /* CharacterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,13 +102,11 @@
 			isa = PBXGroup;
 			children = (
 				04F5F53227B818580003DA35 /* AppDelegate.swift */,
-				04F5F53427B818580003DA35 /* SceneDelegate.swift */,
-				04F5F53627B818580003DA35 /* ViewController.swift */,
-				04F5F53827B818580003DA35 /* Main.storyboard */,
-				04F5F53E27B8185B0003DA35 /* Assets.xcassets */,
-				04F5F54027B8185B0003DA35 /* LaunchScreen.storyboard */,
+				04F5F56627B819E80003DA35 /* Classes */,
+				04F5F56527B819DA0003DA35 /* Controllers */,
+				04F5F56927B81A270003DA35 /* Images */,
 				04F5F54327B8185B0003DA35 /* Info.plist */,
-				04F5F53B27B818580003DA35 /* MarvelApp.xcdatamodeld */,
+				04F5F56827B81A140003DA35 /* Storyboards */,
 			);
 			path = MarvelApp;
 			sourceTree = "<group>";
@@ -128,6 +126,64 @@
 				04F5F55827B8185B0003DA35 /* MarvelAppUITestsLaunchTests.swift */,
 			);
 			path = MarvelAppUITests;
+			sourceTree = "<group>";
+		};
+		04F5F56527B819DA0003DA35 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F56A27B81A830003DA35 /* Character */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		04F5F56627B819E80003DA35 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F56727B819F10003DA35 /* DataBase */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		04F5F56727B819F10003DA35 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F53B27B818580003DA35 /* MarvelApp.xcdatamodeld */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		04F5F56827B81A140003DA35 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F54027B8185B0003DA35 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		04F5F56927B81A270003DA35 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F53E27B8185B0003DA35 /* Assets.xcassets */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		04F5F56A27B81A830003DA35 /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F56F27B81B820003DA35 /* ViewModel */,
+				04F5F56B27B81AD10003DA35 /* CharacterVC.swift */,
+				04F5F56D27B81B0C0003DA35 /* CharacterVC.xib */,
+			);
+			path = Character;
+			sourceTree = "<group>";
+		};
+		04F5F56F27B81B820003DA35 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				04F5F57027B81B980003DA35 /* CharacterViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,9 +290,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F5F56E27B81B0C0003DA35 /* CharacterVC.xib in Resources */,
 				04F5F54227B8185B0003DA35 /* LaunchScreen.storyboard in Resources */,
 				04F5F53F27B8185B0003DA35 /* Assets.xcassets in Resources */,
-				04F5F53A27B818580003DA35 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +317,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F5F53727B818580003DA35 /* ViewController.swift in Sources */,
+				04F5F57127B81B980003DA35 /* CharacterViewModel.swift in Sources */,
 				04F5F53327B818580003DA35 /* AppDelegate.swift in Sources */,
+				04F5F56C27B81AD10003DA35 /* CharacterVC.swift in Sources */,
 				04F5F53D27B818580003DA35 /* MarvelApp.xcdatamodeld in Sources */,
-				04F5F53527B818580003DA35 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,14 +357,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		04F5F53827B818580003DA35 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04F5F53927B818580003DA35 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		04F5F54027B8185B0003DA35 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -447,10 +495,10 @@
 				INFOPLIST_FILE = MarvelApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -475,10 +523,10 @@
 				INFOPLIST_FILE = MarvelApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
