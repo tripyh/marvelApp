@@ -10,3 +10,11 @@ import Foundation
 class CharacterViewModel {
     
 }
+
+// MARK: - Public
+
+extension CharacterViewModel {
+    func loadCharacters() {
+        CharacterManager.loadCharacters()
+    }
+}
