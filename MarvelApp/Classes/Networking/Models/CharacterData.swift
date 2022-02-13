@@ -15,7 +15,7 @@ struct CharacterData {
     }
 }
 
-// MARK: Decodable
+// MARK: - Decodable
 
 extension CharacterData: Decodable {
     private enum CodingKeys: String, CodingKey {

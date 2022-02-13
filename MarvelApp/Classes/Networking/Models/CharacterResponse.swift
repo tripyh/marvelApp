@@ -15,7 +15,7 @@ struct CharacterResponse {
     }
 }
 
-// MARK: Decodable
+// MARK: - Decodable
 
 extension CharacterResponse: Decodable {
     private enum CodingKeys: String, CodingKey {

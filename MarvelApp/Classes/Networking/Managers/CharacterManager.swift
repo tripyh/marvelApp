@@ -10,20 +10,18 @@ import Moya
 class CharacterManager {
     private static let provider = MoyaProvider<CharacterService>()
     
-    class func loadCharacters() {
+    class func loadCharacters(_ completionHandler: @escaping([Character]?, String?) -> Void) {
         provider.request(.characters) { result in
             switch result {
             case .success(let success):
                 do {
                     let characters = try JSONDecoder().decode(CharacterResponse.self, from: success.data)
-                    print("characters = \(characters.data.results.count)")
-                    
+                    completionHandler(characters.data.results, nil)
                 } catch let error {
-                    print("Error parsing = \(error)")
+                    completionHandler(nil, error.localizedDescription)
                 }
-                print("OK")
             case .failure(let error):
-                print("error = \(error)")
+                completionHandler(nil, error.localizedDescription)
             }
         }
     }
