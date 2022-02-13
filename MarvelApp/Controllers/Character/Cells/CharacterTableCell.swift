@@ -16,6 +16,15 @@ class CharacterTableCell: BaseTableViewCell {
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var descriptionLabel: UILabel!
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.text = nil
+        descriptionLabel.text = nil
+        avatarImage.sd_cancelCurrentImageLoad()
+        avatarImage.layer.removeAllAnimations()
+        avatarImage.image = nil
+    }
+    
     // MARK: - Configure
     
     func configure(_ character: Character?) {

@@ -10,18 +10,23 @@ import Moya
 class CharacterManager {
     private static let provider = MoyaProvider<CharacterService>()
     
-    class func loadCharacters(_ completionHandler: @escaping([Character]?, String?) -> Void) {
+    class func loadCharacters(_ completionHandler: @escaping(String?) -> Void) {
         provider.request(.characters) { result in
             switch result {
             case .success(let success):
                 do {
                     let characters = try JSONDecoder().decode(CharacterResponse.self, from: success.data)
-                    completionHandler(characters.data.results, nil)
+                    
+                    for character in characters.data.results {
+                        DataManager.shared.saveCharacter(character)
+                    }
+                    
+                    completionHandler(nil)
                 } catch let error {
-                    completionHandler(nil, error.localizedDescription)
+                    completionHandler(error.localizedDescription)
                 }
             case .failure(let error):
-                completionHandler(nil, error.localizedDescription)
+                completionHandler(error.localizedDescription)
             }
         }
     }

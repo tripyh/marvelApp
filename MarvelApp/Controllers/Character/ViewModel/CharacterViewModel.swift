@@ -7,28 +7,49 @@
 
 import ReactiveCocoa
 import ReactiveSwift
+import CoreData
 
-class CharacterViewModel {
+class CharacterViewModel: NSObject {
     
     // MARK: - Public properties
     
     let reload: Signal<(), Never>
     let showError: Signal<String, Never>
     var loading: Property<Bool> { return Property(_loading) }
+    let insertIndexPath: Signal<IndexPath, Never>
+    let deleteIndexPath: Signal<IndexPath, Never>
+    let updateIndexPath: Signal<IndexPath, Never>
     
     // MARK: - Private properties
     
     private let reloadObserver: Signal<(), Never>.Observer
     private let showErrorObserver: Signal<String, Never>.Observer
     private let _loading: MutableProperty<Bool> = MutableProperty(false)
+    private let insertIndexPathObserver: Signal<IndexPath, Never>.Observer
+    private let deleteIndexPathObserver: Signal<IndexPath, Never>.Observer
+    private let updateIndexPathObserver: Signal<IndexPath, Never>.Observer
     
     private var characters = [Character]()
+    private var fetchController = DataManager.shared.fetchedResultsControllerForCharacter()
     
     // MARK: - Lifecycle
     
-    init() {
+    override init() {
         (reload, reloadObserver) = Signal.pipe()
         (showError, showErrorObserver) = Signal.pipe()
+        (insertIndexPath, insertIndexPathObserver) = Signal.pipe()
+        (deleteIndexPath, deleteIndexPathObserver) = Signal.pipe()
+        (updateIndexPath, updateIndexPathObserver) = Signal.pipe()
+        characters = DataManager.shared.fetchCharacters()
+        reloadObserver.send(value: ())
+        super.init()
+        
+        fetchController.delegate = self
+        do {
+            try fetchController.performFetch()
+        } catch let error {
+            print("performFetch error = \(error)")
+        }
     }
 }
 
@@ -36,9 +57,9 @@ class CharacterViewModel {
 
 extension CharacterViewModel {
     func loadCharacters() {
-        _loading.value = true
+        _loading.value = characters.isEmpty
         
-        CharacterManager.loadCharacters { [weak self] charactersArr, error in
+        CharacterManager.loadCharacters { [weak self] error in
             guard let strongSelf = self else {
                 return
             }
@@ -47,11 +68,7 @@ extension CharacterViewModel {
             
             if let errorActual = error {
                 strongSelf.showErrorObserver.send(value: errorActual)
-            } else if let charactersActual = charactersArr {
-                strongSelf.characters = charactersActual
             }
-            
-            strongSelf.reloadObserver.send(value: ())
         }
     }
     
@@ -65,5 +82,55 @@ extension CharacterViewModel {
         }
         
         return characters[index]
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension CharacterViewModel: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            if let indexPathActual = newIndexPath {
+                if let characterDB = fetchController.object(at: indexPathActual) as? CharacterDB {
+                    let character = Character(characterDB: characterDB)
+                    characters.insert(character, at: indexPathActual.row)
+                    insertIndexPathObserver.send(value: indexPathActual)
+                }
+            }
+        case .update:
+            if let indexPathActual = indexPath {
+                if let characterDB = fetchController.object(at: indexPathActual) as? CharacterDB {
+                    let character = Character(characterDB: characterDB)
+                    characters.remove(at: indexPathActual.row)
+                    characters.insert(character, at: indexPathActual.row)
+                    updateIndexPathObserver.send(value: indexPathActual)
+                }
+            }
+        case .move:
+            if let indexPathActual = indexPath {
+                characters.remove(at: indexPathActual.row)
+                deleteIndexPathObserver.send(value: indexPathActual)
+            }
+            
+            if let newIndexPathActual = newIndexPath {
+                if let characterDB = fetchController.object(at: newIndexPathActual) as? CharacterDB {
+                    let character = Character(characterDB: characterDB)
+                    characters.insert(character, at: newIndexPathActual.row)
+                    insertIndexPathObserver.send(value: newIndexPathActual)
+                }
+            }
+        case .delete:
+            if let indexPathActual = indexPath {
+                characters.remove(at: indexPathActual.row)
+                deleteIndexPathObserver.send(value: indexPathActual)
+            }
+        @unknown default:
+            fatalError()
+        }
     }
 }

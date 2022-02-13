@@ -8,12 +8,12 @@
 import Foundation
 
 struct Character {
-    let id: Int
+    let id: Int64
     let name: String
     let description: String?
     let avatar: CharacterThumbnail?
     
-    init(id: Int,
+    init(id: Int64,
          name: String,
          description: String?,
          avatar: CharacterThumbnail?) {
@@ -21,6 +21,13 @@ struct Character {
         self.name = name
         self.description = description
         self.avatar = avatar
+    }
+    
+    init(characterDB: CharacterDB) {
+        self.id = characterDB.id
+        self.name = characterDB.name ?? ""
+        self.description = characterDB.descr
+        self.avatar = nil
     }
 }
 
@@ -34,7 +41,7 @@ extension Character: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let id = try container.decode(Int.self, forKey: .id)
+        let id = try container.decode(Int64.self, forKey: .id)
         let name = try container.decode(String.self, forKey: .name)
         let description = try container.decodeIfPresent(String.self, forKey: .description)
         let avatar = try container.decodeIfPresent(CharacterThumbnail.self, forKey: .avatar)

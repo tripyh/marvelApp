@@ -25,6 +25,24 @@ class CharacterVC: UIViewController {
         })
     }
     
+    private var insertIndexPath: BindingTarget<IndexPath> {
+        return BindingTarget(lifetime: lifetime, action: { [weak self] indexPath in
+            self?.tableView.insertRows(at: [indexPath], with: .automatic)
+        })
+    }
+    
+    private var deleteIndexPath: BindingTarget<IndexPath> {
+        return BindingTarget(lifetime: lifetime, action: { [weak self] indexPath in
+            self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+        })
+    }
+    
+    private var updateIndexPath: BindingTarget<IndexPath> {
+        return BindingTarget(lifetime: lifetime, action: { [weak self] indexPath in
+            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+        })
+    }
+    
     // MARK: - Lifecycle
     
     init(viewModel: CharacterViewModel) {
@@ -51,6 +69,9 @@ private extension CharacterVC {
         tableView.reactive.reloadData <~ viewModel.reload
         loaderView.reactive.isAnimating <~ viewModel.loading
         showError <~ viewModel.showError
+        insertIndexPath <~ viewModel.insertIndexPath
+        deleteIndexPath <~ viewModel.deleteIndexPath
+        updateIndexPath <~ viewModel.updateIndexPath
     }
 }
 
