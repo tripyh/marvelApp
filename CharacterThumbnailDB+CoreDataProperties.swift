@@ -19,5 +19,6 @@ extension CharacterThumbnailDB {
     @NSManaged public var path: String?
     @NSManaged public var ext: String?
     @NSManaged public var character: CharacterDB?
+    @NSManaged public var comics: ComicsDB?
 
 }

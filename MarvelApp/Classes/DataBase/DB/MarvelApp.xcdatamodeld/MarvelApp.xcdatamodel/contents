@@ -4,15 +4,25 @@
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
+        <relationship name="comics" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ComicsDB" inverseName="character" inverseEntity="ComicsDB"/>
         <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CharacterThumbnailDB" inverseName="character" inverseEntity="CharacterThumbnailDB"/>
     </entity>
     <entity name="CharacterThumbnailDB" representedClassName=".CharacterThumbnailDB" syncable="YES">
         <attribute name="ext" optional="YES" attributeType="String"/>
         <attribute name="path" optional="YES" attributeType="String"/>
         <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterDB" inverseName="thumbnail" inverseEntity="CharacterDB"/>
+        <relationship name="comics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ComicsDB" inverseName="thumbnail" inverseEntity="ComicsDB"/>
+    </entity>
+    <entity name="ComicsDB" representedClassName=".ComicsDB" syncable="YES">
+        <attribute name="descr" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterDB" inverseName="comics" inverseEntity="CharacterDB"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterThumbnailDB" inverseName="comics" inverseEntity="CharacterThumbnailDB"/>
     </entity>
     <elements>
-        <element name="CharacterDB" positionX="-63" positionY="-18" width="128" height="89"/>
-        <element name="CharacterThumbnailDB" positionX="-63" positionY="9" width="128" height="74"/>
+        <element name="CharacterDB" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="CharacterThumbnailDB" positionX="-63" positionY="9" width="128" height="89"/>
+        <element name="ComicsDB" positionX="-45" positionY="36" width="128" height="104"/>
     </elements>
 </model>

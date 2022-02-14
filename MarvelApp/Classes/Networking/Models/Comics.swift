@@ -22,6 +22,19 @@ struct Comics {
         self.description = description
         self.avatar = avatar
     }
+    
+    init(comicsDB: ComicsDB) {
+        id = comicsDB.id
+        title = comicsDB.title ?? ""
+        description = comicsDB.descr
+        
+        if let thumbnail = comicsDB.thumbnail {
+            let characterThumbnail = CharacterThumbnail(characterThumbnailDB: thumbnail)
+            avatar = characterThumbnail
+        } else {
+            avatar = nil
+        }
+    }
 }
 
 // MARK: - Decodable

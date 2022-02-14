@@ -47,28 +47,25 @@ class DataManager {
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
-    
-    // MARK: - Lifecycle
-    
-    init() {
-        
-    }
 }
 
 // MARK: - Public
 
 extension DataManager {
+    
+    // MARK: - Character logic
+    
     func saveCharacter(_ character: Character) {
-        let entityDescription = NSEntityDescription.entity(forEntityName: "CharacterDB",
-                                                           in: managedObjectContext)
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CharacterDB")
-        let predicate = NSPredicate(format: "id == %d", character.id)
-        fetchRequest.predicate = predicate
-                
         do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CharacterDB")
+            let predicate = NSPredicate(format: "id == %d", character.id)
+            fetchRequest.predicate = predicate
+            
             if let currentCharacter = try managedObjectContext.fetch(fetchRequest).last as? CharacterDB,
                currentCharacter.id == character.id {
+                
+                // MARK: - Rewriting existing CharacterDB
+                
                 currentCharacter.name = character.name
                 currentCharacter.descr = character.description
                 
@@ -84,6 +81,11 @@ extension DataManager {
                     currentCharacter.setValue(characterThumbnailDB, forKey: "thumbnail")
                 }
             } else {
+                
+                // MARK: - Creating new CharacterDB
+                
+                let entityDescription = NSEntityDescription.entity(forEntityName: "CharacterDB",
+                                                                   in: managedObjectContext)
                 let managedObject = NSManagedObject(entity: entityDescription!,
                                                     insertInto: managedObjectContext)
 
@@ -133,6 +135,107 @@ extension DataManager {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CharacterDB")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.managedObjectContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        return fetchedResultsController
+    }
+    
+    // MARK: - Comics logic
+    
+    func saveComics(_ comics: Comics, characterId: Int64) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ComicsDB")
+            let predicate = NSPredicate(format: "id == %d", comics.id)
+            fetchRequest.predicate = predicate
+            
+            if let currentComisc = try managedObjectContext.fetch(fetchRequest).last as? ComicsDB,
+               currentComisc.id == comics.id {
+                
+                // MARK: - Rewriting existing ComicsDB
+                
+                currentComisc.title = comics.title
+                currentComisc.descr = comics.description
+                
+                if comics.avatar == nil {
+                    let thumbnailEntityDescription = NSEntityDescription.entity(forEntityName: "CharacterThumbnailDB",
+                                                                                in: managedObjectContext)
+                    let characterThumbnailDB = NSManagedObject(entity: thumbnailEntityDescription!,
+                                                               insertInto: managedObjectContext)
+                    
+                    characterThumbnailDB.setValue(comics.avatar?.path, forKey: "path")
+                    characterThumbnailDB.setValue(comics.avatar?.ext, forKey: "ext")
+                    
+                    currentComisc.setValue(characterThumbnailDB, forKey: "thumbnail")
+                }
+            } else {
+                
+                // MARK: - Creating new ComicsDB
+                
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CharacterDB")
+                let predicate = NSPredicate(format: "id == %d", characterId)
+                fetchRequest.predicate = predicate
+                
+                if let currentCharacter = try managedObjectContext.fetch(fetchRequest).last as? CharacterDB,
+                   currentCharacter.id == characterId {
+                    
+                    guard let comicsDB = NSEntityDescription.insertNewObject(forEntityName: "ComicsDB", into: managedObjectContext) as? ComicsDB else {
+                        return
+                    }
+                    
+                    comicsDB.setValue(comics.id, forKey: "id")
+                    comicsDB.setValue(comics.title, forKey: "title")
+                    comicsDB.setValue(comics.description, forKey: "descr")
+                    
+                    let thumbnailEntityDescription = NSEntityDescription.entity(forEntityName: "CharacterThumbnailDB",
+                                                                                in: managedObjectContext)
+                    let characterThumbnailDB = NSManagedObject(entity: thumbnailEntityDescription!,
+                                                               insertInto: managedObjectContext)
+                    
+                    characterThumbnailDB.setValue(comics.avatar?.path, forKey: "path")
+                    characterThumbnailDB.setValue(comics.avatar?.ext, forKey: "ext")
+                    comicsDB.setValue(characterThumbnailDB, forKey: "thumbnail")
+                    currentCharacter.addToComics(comicsDB)
+                }
+            }
+        } catch let error {
+            print("Error in saving = \(error)")
+        }
+        
+        saveContext()
+    }
+    
+    func fetchComics(_ characterId: Int64) -> [Comics] {
+        var comicsArr = [Comics]()
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ComicsDB")
+        let predicate = NSPredicate(format: "character.id == %d", characterId)
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.predicate = predicate
+        
+        do {
+            if let currentComics = try managedObjectContext.fetch(fetchRequest) as? [ComicsDB] {
+                for comicsDB in currentComics {
+                    let comics = Comics(comicsDB: comicsDB)
+                    comicsArr.append(comics)
+                }
+                
+            }
+        } catch let error {
+            print("Error fetch = \(error)")
+        }
+        
+        return comicsArr
+    }
+    
+    func fetchedResultsControllerForComics(_ characterId: Int64) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ComicsDB")
+        let predicate = NSPredicate(format: "character.id == %d", characterId)
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.predicate = predicate
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: self.managedObjectContext,
                                                                   sectionNameKeyPath: nil,

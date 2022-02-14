@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComicsVC" customModule="MarvelApp" customModuleProvider="target">
             <connections>
+                <outlet property="loaderView" destination="BLl-rM-pHk" id="59B-nl-Gq8"/>
                 <outlet property="tableView" destination="oeT-i3-x0s" id="n5p-AB-lz5"/>
                 <outlet property="view" destination="iN0-l3-epB" id="MZv-3p-TNZ"/>
             </connections>
@@ -28,10 +29,20 @@
                         <outlet property="delegate" destination="-1" id="vlK-LI-Htb"/>
                     </connections>
                 </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BLl-rM-pHk">
+                    <rect key="frame" x="197" y="443" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="vg8-Z7-vCu"/>
+                        <constraint firstAttribute="height" constant="20" id="yNQ-sd-PCB"/>
+                    </constraints>
+                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="BLl-rM-pHk" firstAttribute="centerY" secondItem="oeT-i3-x0s" secondAttribute="centerY" id="4RL-gC-Exj"/>
+                <constraint firstItem="BLl-rM-pHk" firstAttribute="centerX" secondItem="oeT-i3-x0s" secondAttribute="centerX" id="Ayg-Hb-UHT"/>
                 <constraint firstItem="oeT-i3-x0s" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="DIS-HJ-eTf"/>
                 <constraint firstItem="oeT-i3-x0s" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Mr9-Lh-IHo"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="oeT-i3-x0s" secondAttribute="bottom" id="VTk-7h-cxH"/>

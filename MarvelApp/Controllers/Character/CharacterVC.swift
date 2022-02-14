@@ -105,7 +105,7 @@ extension CharacterVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if let character = viewModel.character(at: indexPath.row) {
-            pushToComicsId(character.id)
+            pushToComicsCharacterId(character.id)
         }
     }
 }
@@ -113,8 +113,8 @@ extension CharacterVC: UITableViewDelegate {
 // MARK: - Navigation
 
 private extension CharacterVC {
-    func pushToComicsId(_ id: Int64) {
-        let comicsViewModel = ComicsViewModel(comicsId: id)
+    func pushToComicsCharacterId(_ characterId: Int64) {
+        let comicsViewModel = ComicsViewModel(characterId: characterId)
         let comicsController = ComicsVC(viewModel: comicsViewModel)
         navigationController?.pushViewController(comicsController, animated: true)
     }

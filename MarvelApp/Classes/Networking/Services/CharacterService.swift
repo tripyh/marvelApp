@@ -9,14 +9,14 @@ import Moya
 
 enum CharacterService: NetworkTarget {
     case characters
-    case comicsId(_ comicsId: Int64)
+    case comicsCharacterId(_ characterId: Int64)
     
     var path: String {
         switch self {
         case .characters:
             return "v1/public/characters"
-        case .comicsId(let comicsId):
-            return "v1/public/characters/\(comicsId)/comics"
+        case .comicsCharacterId(let characterId):
+            return "v1/public/characters/\(characterId)/comics"
         }
     }
     

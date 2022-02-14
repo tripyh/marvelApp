@@ -20,5 +20,23 @@ extension CharacterDB {
     @NSManaged public var id: Int64
     @NSManaged public var name: String?
     @NSManaged public var thumbnail: CharacterThumbnailDB?
+    @NSManaged public var comics: NSSet?
+
+}
+
+// MARK: Generated accessors for comics
+extension CharacterDB {
+
+    @objc(addComicsObject:)
+    @NSManaged public func addToComics(_ value: ComicsDB)
+
+    @objc(removeComicsObject:)
+    @NSManaged public func removeFromComics(_ value: ComicsDB)
+
+    @objc(addComics:)
+    @NSManaged public func addToComics(_ values: NSSet)
+
+    @objc(removeComics:)
+    @NSManaged public func removeFromComics(_ values: NSSet)
 
 }

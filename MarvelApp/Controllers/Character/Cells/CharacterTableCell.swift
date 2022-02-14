@@ -32,7 +32,19 @@ class CharacterTableCell: BaseTableViewCell {
         descriptionLabel.text = character?.description
         
         if let path = character?.avatar?.path,
-            let ext = character?.avatar?.ext {
+           let ext = character?.avatar?.ext {
+            let urlLink = "\(path).\(ext)"
+            let avatarUrl = URL(string: urlLink)
+            avatarImage.sd_setImage(with: avatarUrl)
+        }
+    }
+    
+    func configure(_ comics: Comics?) {
+        nameLabel.text = comics?.title
+        descriptionLabel.text = comics?.description
+        
+        if let path = comics?.avatar?.path,
+           let ext = comics?.avatar?.ext {
             let urlLink = "\(path).\(ext)"
             let avatarUrl = URL(string: urlLink)
             avatarImage.sd_setImage(with: avatarUrl)
