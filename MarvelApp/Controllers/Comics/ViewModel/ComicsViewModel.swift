@@ -17,5 +17,8 @@ class ComicsViewModel {
     
     init(comicsId: Int64) {
         self.comicsId = comicsId
+        CharacterManager.loadComicsId(comicsId) { error in
+            
+        }
     }
 }

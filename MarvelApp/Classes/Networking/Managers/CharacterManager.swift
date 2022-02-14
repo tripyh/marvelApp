@@ -30,4 +30,20 @@ class CharacterManager {
             }
         }
     }
+    
+    class func loadComicsId(_ comicsId: Int64, completionHandler: @escaping(String?) -> Void) {
+        provider.request(.comicsId(comicsId)) { result in
+            switch result {
+            case .success(let success):
+                do {
+                    let comics = try JSONDecoder().decode(ComicsResponse.self, from: success.data)
+                    completionHandler(nil)
+                } catch let error {
+                    completionHandler(error.localizedDescription)
+                }
+            case .failure(let error):
+                completionHandler(error.localizedDescription)
+            }
+        }
+    }
 }
