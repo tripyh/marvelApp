@@ -15,6 +15,7 @@ class CharacterVC: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var loaderView: UIActivityIndicatorView!
+    @IBOutlet private var searchBar: UISearchBar!
     
     private let viewModel: CharacterViewModel
     private let (lifetime, token) = Lifetime.make()
@@ -110,10 +111,24 @@ extension CharacterVC: UITableViewDelegate {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
+extension CharacterVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchText(searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+    }
+}
+
 // MARK: - Navigation
 
 private extension CharacterVC {
     func pushToComicsCharacterId(_ characterId: Int64) {
+        view.endEditing(true)
+        
         let comicsViewModel = ComicsViewModel(characterId: characterId)
         let comicsController = ComicsVC(viewModel: comicsViewModel)
         navigationController?.pushViewController(comicsController, animated: true)

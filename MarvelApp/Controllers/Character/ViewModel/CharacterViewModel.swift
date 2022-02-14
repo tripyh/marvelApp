@@ -30,7 +30,9 @@ class CharacterViewModel: NSObject {
     private let updateIndexPathObserver: Signal<IndexPath, Never>.Observer
     
     private var characters = [Character]()
+    private var searchCharacters = [Character]()
     private var fetchController = DataManager.shared.fetchedResultsControllerForCharacter()
+    private var isSearching = false
     
     // MARK: - Lifecycle
     
@@ -45,6 +47,7 @@ class CharacterViewModel: NSObject {
         super.init()
         
         fetchController.delegate = self
+        
         do {
             try fetchController.performFetch()
         } catch let error {
@@ -73,15 +76,43 @@ extension CharacterViewModel {
     }
     
     var numberOfRows: Int {
-        return characters.count
+        return isSearching ? searchCharacters.count : characters.count
     }
     
     func character(at index: Int) -> Character? {
-        guard 0..<characters.count ~= index else {
-            return nil
+        if isSearching {
+            guard 0..<searchCharacters.count ~= index else {
+                return nil
+            }
+            
+            return searchCharacters[index]
+        } else {
+            guard 0..<characters.count ~= index else {
+                return nil
+            }
+            
+            return characters[index]
+        }
+    }
+    
+    func searchText(_ searchText: String?) {
+        guard let searchTextActual = searchText,
+              !searchTextActual.isEmpty else {
+                  isSearching = false
+                  reloadObserver.send(value: ())
+                  return
+              }
+        
+        isSearching = true
+        searchCharacters = [Character]()
+        
+        for character in characters {
+            if character.name.lowercased().contains(searchTextActual.lowercased()) {
+                searchCharacters.append(character)
+            }
         }
         
-        return characters[index]
+        reloadObserver.send(value: ())
     }
 }
 
@@ -93,6 +124,10 @@ extension CharacterViewModel: NSFetchedResultsControllerDelegate {
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
+        if isSearching {
+            return
+        }
+        
         switch type {
         case .insert:
             if let indexPathActual = newIndexPath {
