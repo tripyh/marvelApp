@@ -4,8 +4,15 @@
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
+        <relationship name="thumbnail" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CharacterThumbnailDB" inverseName="character" inverseEntity="CharacterThumbnailDB"/>
+    </entity>
+    <entity name="CharacterThumbnailDB" representedClassName=".CharacterThumbnailDB" syncable="YES">
+        <attribute name="ext" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+        <relationship name="character" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CharacterDB" inverseName="thumbnail" inverseEntity="CharacterDB"/>
     </entity>
     <elements>
-        <element name="CharacterDB" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="CharacterDB" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="CharacterThumbnailDB" positionX="-63" positionY="9" width="128" height="74"/>
     </elements>
 </model>

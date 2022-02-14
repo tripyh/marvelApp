@@ -16,6 +16,11 @@ struct CharacterThumbnail {
         self.path = path
         self.ext = ext
     }
+    
+    init(characterThumbnailDB: CharacterThumbnailDB) {
+        path = characterThumbnailDB.path ?? ""
+        ext = characterThumbnailDB.ext ?? ""
+    }
 }
 
 // MARK: - Decodable

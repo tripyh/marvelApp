@@ -27,7 +27,13 @@ struct Character {
         self.id = characterDB.id
         self.name = characterDB.name ?? ""
         self.description = characterDB.descr
-        self.avatar = nil
+        
+        if let thumbnail = characterDB.thumbnail {
+            let characterThumbnail = CharacterThumbnail(characterThumbnailDB: thumbnail)
+            avatar = characterThumbnail
+        } else {
+            avatar = nil
+        }
     }
 }
 

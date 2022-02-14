@@ -71,6 +71,18 @@ extension DataManager {
                currentCharacter.id == character.id {
                 currentCharacter.name = character.name
                 currentCharacter.descr = character.description
+                
+                if character.avatar == nil {
+                    let thumbnailEntityDescription = NSEntityDescription.entity(forEntityName: "CharacterThumbnailDB",
+                                                                                in: managedObjectContext)
+                    let characterThumbnailDB = NSManagedObject(entity: thumbnailEntityDescription!,
+                                                               insertInto: managedObjectContext)
+                    
+                    characterThumbnailDB.setValue(character.avatar?.path, forKey: "path")
+                    characterThumbnailDB.setValue(character.avatar?.ext, forKey: "ext")
+                    
+                    currentCharacter.setValue(characterThumbnailDB, forKey: "thumbnail")
+                }
             } else {
                 let managedObject = NSManagedObject(entity: entityDescription!,
                                                     insertInto: managedObjectContext)
@@ -78,6 +90,16 @@ extension DataManager {
                 managedObject.setValue(character.id, forKey: "id")
                 managedObject.setValue(character.name, forKey: "name")
                 managedObject.setValue(character.description, forKey: "descr")
+                
+                let thumbnailEntityDescription = NSEntityDescription.entity(forEntityName: "CharacterThumbnailDB",
+                                                                            in: managedObjectContext)
+                let characterThumbnailDB = NSManagedObject(entity: thumbnailEntityDescription!,
+                                                           insertInto: managedObjectContext)
+                
+                characterThumbnailDB.setValue(character.avatar?.path, forKey: "path")
+                characterThumbnailDB.setValue(character.avatar?.ext, forKey: "ext")
+                
+                managedObject.setValue(characterThumbnailDB, forKey: "thumbnail")
             }
         } catch let error {
             print("Error in saving = \(error)")

@@ -2,7 +2,7 @@
 //  CharacterDB+CoreDataProperties.swift
 //  MarvelApp
 //
-//  Created by andrey rulev on 13.02.2022.
+//  Created by andrey rulev on 14.02.2022.
 //
 //
 
@@ -16,8 +16,9 @@ extension CharacterDB {
         return NSFetchRequest<CharacterDB>(entityName: "CharacterDB")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var descr: String?
     @NSManaged public var id: Int64
+    @NSManaged public var name: String?
+    @NSManaged public var thumbnail: CharacterThumbnailDB?
 
 }

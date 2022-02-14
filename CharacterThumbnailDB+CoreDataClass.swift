@@ -1,5 +1,5 @@
 //
-//  CharacterDB+CoreDataClass.swift
+//  CharacterThumbnailDB+CoreDataClass.swift
 //  MarvelApp
 //
 //  Created by andrey rulev on 14.02.2022.
@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 
-public class CharacterDB: NSManagedObject {
+public class CharacterThumbnailDB: NSManagedObject {
 
 }
